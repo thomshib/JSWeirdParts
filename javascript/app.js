@@ -132,6 +132,7 @@ var greeting = 'Hola;
 */
 
 //Closures
+/*
 function greet(whattosay){
 
     return function(name){
@@ -140,3 +141,130 @@ function greet(whattosay){
 }
 
 greet('Hi')('Shibu');
+*/
+
+/*
+function buildFunctions(){
+    var arr = [];
+    for(var i = 0; i < 3; i++){
+        arr.push(
+            function(){
+                console.log(i);
+            }
+
+        );
+    }
+
+    return arr;
+
+}
+
+
+var fs = buildFunctions();
+fs[0]();
+fs[1]();
+fs[2]();
+
+//how to fix above to print 0,1,2,
+function buildFunctionsModified(){
+    var arr = [];
+    for(var i = 0; i < 3; i++){
+        arr.push(
+            (function(j){
+                return function(){
+                    console.log(j);
+                }
+            }(i))
+
+        );
+    }
+
+    return arr;
+
+}
+
+
+var fs = buildFunctionsModified();
+fs[0]();
+fs[1]();
+fs[2]();
+
+*/
+
+/*
+//function factories using closures
+
+function makeGreeting(language){
+    return function(firstname,lastname){
+        if(language == "en"){
+            console.log('Hello ' +  firstname + ' ' + lastname);
+        }
+        if(language == "es"){
+            console.log('Hola ' +  firstname + ' ' + lastname);
+        }
+    }
+}
+
+var greetEngish = makeGreeting("en");
+var greetSpanish = makeGreeting("es");
+
+greetEngish('John' ,'Doe');
+greetSpanish('John' ,'Doe');
+
+*/
+
+/*
+//closures and callbacks
+
+function sayHiLater(){
+    var greeting = 'Hi';
+    setTimeout(function(){
+        console.log(greeting);
+    },3000);
+}
+
+sayHiLater();
+*/
+
+//call, apply and bind
+
+var person ={
+    firstname: 'John',
+    lastname: 'Doe',
+    getFullName: function(){
+        var fullname = this.firstname + ' ' +  this.lastname;
+        return fullname;
+    }
+}
+
+var logName = function(lang1,lang2){
+    console.log('Logged: ' + this.getFullName());
+    console.log('Argument: ' + lang1 + ' ' + lang2)
+    console.log('----------------------');
+}
+//logName(); //will throw an error
+
+var logPersonName = logName.bind(person); //creates a copy of the function
+logPersonName('en');
+
+logName.call(person,'en','es');
+logName.apply(person,['en','es']);
+
+//function borrowing
+
+var person2 = {
+    firstname: 'Jane',
+    lastname:' Doe'
+}
+
+console.log(person.getFullName.apply(person2));
+
+//function currying
+//creates a new copy of the function
+
+function multiply(a,b){
+    return a * b;
+}
+
+var multiplyByTwo = multiply.bind(this,2); //param a is set to 2
+console.log(multiplyByTwo(3));
