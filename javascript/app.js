@@ -226,6 +226,7 @@ function sayHiLater(){
 sayHiLater();
 */
 
+/*
 //call, apply and bind
 
 var person ={
@@ -268,3 +269,42 @@ function multiply(a,b){
 
 var multiplyByTwo = multiply.bind(this,2); //param a is set to 2
 console.log(multiplyByTwo(3));
+
+*/
+
+//functiona; programming
+
+function mapForEach(arr, fn){
+    var newarr = [];
+    for(var i = 0; i < arr.length; i++){
+        newarr.push( fn(arr[i]));
+    };
+    return newarr;
+}
+
+var arr1 = [1,2,3];
+console.log(arr1);
+
+var arr2 = mapForEach(arr1,function(item){
+    return item * 2;
+});
+
+console.log(arr2);
+
+var checkPastLimit = function(limiter, item){
+    return item > limiter;
+}
+
+var arr3 = mapForEach(arr1,checkPastLimit.bind(this,1));
+console.log(arr3);
+
+var checkPastLimitSimplified = function(limiter){
+    //presets the limiter
+    return function(limiter,item){
+        return item > limiter;
+    }.bind(this,limiter);
+}
+
+var arr4 = mapForEach(arr1,checkPastLimitSimplified(2));
+console.log(arr4);
+
